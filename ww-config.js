@@ -4,7 +4,7 @@ export default {
         exclude: ['text'],
     },
     editor: {
-        label: { en: 'Form Input', fr: 'Entrée de Formulaire' },
+        label: { en: 'Form Input xxx', fr: 'Entrée de Formulaire' },
         icon: 'text-input',
         customSettingsPropertiesOrder: [
             'value',
