@@ -1,0 +1,25 @@
+{
+    "name": "ww-form-input",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/weweb-assets/ww-form-input"
+    },
+    "version": "3.3.1",
+    "scripts": {
+        "build": "weweb build",
+        "serve": "weweb serve"
+    },
+    "devDependencies": {
+        "@vue/eslint-config-prettier": "^6.0.0",
+        "@weweb/cli": "github:sgraphics/weweb-cli#webpack-fallbacks",
+        "eslint": "^7.7.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "eslint-plugin-vue": "7.0.0-beta.4",
+        "prettier": "^2.1.2"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@web3auth/ethereum-provider": "^8.8.0",
+        "@web3auth/modal": "^8.8.0"
+    }
+}
