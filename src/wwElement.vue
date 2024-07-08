@@ -30,9 +30,6 @@
 <script>
 import { computed, ref } from 'vue';
 
-//import { Web3Auth } from '@web3auth/modal'
-//import { EthereumPrivateKeyProvider } from "@web3auth/ethereum-provider";
-
 export default {
     inheritAttrs: false,
     props: {
@@ -391,8 +388,10 @@ export default {
         },
         // /!\ Use externally
         focusInput() {
+
+            
             const chainConfig = {
-                chainNamespace: CHAIN_NAMESPACES.EIP155,
+                chainNamespace: window.CHAIN_NAMESPACES.EIP155,
                 chainId: "0x1",
                 displayName: "Ethereum Mainnet",
                 rpcTarget: "https://rpc.ankr.com/eth",
@@ -402,23 +401,26 @@ export default {
                 logo: "https://web3auth.io/images/web3authlog.png",
             };
 
-            const privateKeyProvider = new EthereumPrivateKeyProvider({
+            const privateKeyProvider = new window.EthereumPrivateKeyProvider({
                 config: { chainConfig },
             });
             var clientId = "BCD3bVaYA3ZHu3F0bEs6eEyk3OzC1zZvTwkFkFQsiicid-7H4bxyQgBlC9IxCipUYlEbQ1P6ZqBzuDBAMx7svIA";
 
             const web3AuthOptions = {
                 clientId,
-                web3AuthNetwork: WEB3AUTH_NETWORK.SAPPHIRE_TESTNET,
+                web3AuthNetwork: window.WEB3AUTH_NETWORK.SAPPHIRE_TESTNET,
                 privateKeyProvider,
             };
 
-            const web3auth = new Web3Auth(web3AuthOptions);
+            const web3auth = new window.Web3Auth(web3AuthOptions);
 
             web3auth.initModal().then(function () {
 
                 const web3authProvider = web3auth.connect().then();
             });
+
+            
+
 
             if (this.isReadonly) return;
             const el = this.$refs.input;
