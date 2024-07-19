@@ -481,9 +481,9 @@ export default {
                     loginConfig: {
                         twitter: {
                                 name: "Twitter Login", // Display name
-                                verifier: "xano-twitter-rddtor-verifier", // Replace with your verifier name
-                                typeOfLogin: "twitter",
-                                clientId: "OGlsNTc4cGhrRE9DVEQzVGJjZUI6MTpjaQ", // Replace with your Twitter client ID
+                                verifier: "rddtor-verifier",
+                                verifierSubIdentifier: "xano-twitter-rddtor-verifier",
+                                typeOfLogin: "jwt"
                             },
                     },
                 },
