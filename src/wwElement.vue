@@ -30,6 +30,25 @@
 <script>
 import { computed, ref } from 'vue';
 
+if (window.Web3Auth == null || window.Web3Auth == undefined) {
+  (async () => {
+    try {
+      const { Web3Auth } = await import('@web3auth/modal');
+      const { EthereumPrivateKeyProvider } = await import('@web3auth/ethereum-provider');
+      const { OpenloginAdapter } = await import('@web3auth/openlogin-adapter');
+      const { CHAIN_NAMESPACES, WEB3AUTH_NETWORK } = await import('@web3auth/base');
+
+      window.Web3Auth = Web3Auth;
+      window.EthereumPrivateKeyProvider = EthereumPrivateKeyProvider;
+      window.CHAIN_NAMESPACES = CHAIN_NAMESPACES;
+      window.WEB3AUTH_NETWORK = WEB3AUTH_NETWORK;
+      window.OpenloginAdapter = OpenloginAdapter;
+    } catch (err) {
+      console.error('Failed to load Web3Auth modules', err);
+    }
+  })();
+}
+
 export default {
     inheritAttrs: false,
     props: {
@@ -387,6 +406,46 @@ export default {
             }, wwLib.wwUtils.getLengthUnit(this.content.transition)[0]);
         },
         // /!\ Use externally
+        focusInput2() {
+
+            
+            const chainConfig = {
+                chainNamespace: window.CHAIN_NAMESPACES.EIP155,
+                chainId: "0x1",
+                displayName: "Ethereum Mainnet",
+                rpcTarget: "https://rpc.ankr.com/eth",
+                blockExplorerUrl: "https://etherscan.io",
+                ticker: "ETH",
+                tickerName: "Ethereum",
+                logo: "https://web3auth.io/images/web3authlog.png",
+            };
+
+            const privateKeyProvider = new window.EthereumPrivateKeyProvider({
+                config: { chainConfig },
+            });
+            var clientId = "BCD3bVaYA3ZHu3F0bEs6eEyk3OzC1zZvTwkFkFQsiicid-7H4bxyQgBlC9IxCipUYlEbQ1P6ZqBzuDBAMx7svIA";
+
+            const web3AuthOptions = {
+                clientId,
+                web3AuthNetwork: window.WEB3AUTH_NETWORK.SAPPHIRE_TESTNET,
+                privateKeyProvider,
+            };
+
+            const web3auth = new window.Web3Auth(web3AuthOptions);
+
+            web3auth.initModal().then(function () {
+
+                const web3authProvider = web3auth.connect().then();
+            });
+
+            
+
+
+            if (this.isReadonly) return;
+            const el = this.$refs.input;
+            if (el) el.focus();
+        },
+        // /!\ Use externally
         focusInput() {
 
             
@@ -413,6 +472,24 @@ export default {
             };
 
             const web3auth = new window.Web3Auth(web3AuthOptions);
+
+            const openloginAdapter = new window.OpenloginAdapter({
+                adapterSettings: {
+                    clientId: clientId, // Replace with your Web3Auth client ID
+                    network: "sapphire_testnet",
+                    uxMode: "popup",
+                    loginConfig: {
+                        twitter: {
+                                name: "Twitter Login", // Display name
+                                verifier: "xano-twitter-rddtor-verifier", // Replace with your verifier name
+                                typeOfLogin: "twitter",
+                                clientId: "OGlsNTc4cGhrRE9DVEQzVGJjZUI6MTpjaQ", // Replace with your Twitter client ID
+                            },
+                    },
+                },
+            });
+
+            web3auth.configureAdapter(openloginAdapter);
 
             web3auth.initModal().then(function () {
 
