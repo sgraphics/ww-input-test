@@ -64,151 +64,151 @@ export default {
     emits: ['trigger-event', 'add-state', 'remove-state', 'update:content:effect'],
     setup(props) {
         alert(1);
-        function getQueryParams(url) {
-            let params = {};
-            let parser = document.createElement('a');
-            parser.href = url;
-            let query = parser.search.substring(1);
-            let vars = query.split('&');
-            for (let i = 0; i < vars.length; i++) {
-                let pair = vars[i].split('=');
-                params[pair[0]] = decodeURIComponent(pair[1]);
-            }
-            return params;
-        }
+        // function getQueryParams(url) {
+        //     let params = {};
+        //     let parser = document.createElement('a');
+        //     parser.href = url;
+        //     let query = parser.search.substring(1);
+        //     let vars = query.split('&');
+        //     for (let i = 0; i < vars.length; i++) {
+        //         let pair = vars[i].split('=');
+        //         params[pair[0]] = decodeURIComponent(pair[1]);
+        //     }
+        //     return params;
+        // }
 
-        // Get query parameters
-        let queryParams = getQueryParams(window.location.href);
+        // // Get query parameters
+        // let queryParams = getQueryParams(window.location.href);
 
-        // Extract oauth_token and oauth_verifier
-        let oauthToken = queryParams['oauth_token'];
-        let oauthVerifier = queryParams['oauth_verifier'];
+        // // Extract oauth_token and oauth_verifier
+        // let oauthToken = queryParams['oauth_token'];
+        // let oauthVerifier = queryParams['oauth_verifier'];
 
-        const fetchJWTFromXano = async (oauthToken, oauthVerifier) => {
-            const response = await fetch('https://xsrr-l2ye-dpbj.f2.xano.io/api:NUVFj-l-:Web3Auth/oauth/twitter/access_token', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    oauth_token: oauthToken,
-                    oauth_verifier: oauthVerifier
-                })
-            });
-            const data = await response.json();
-            alert(JSON.stringify(data));
-            return data.authToken; // Assuming the JWT is in the `token` field
-        };
+        // const fetchJWTFromXano = async (oauthToken, oauthVerifier) => {
+        //     const response = await fetch('https://xsrr-l2ye-dpbj.f2.xano.io/api:NUVFj-l-:Web3Auth/oauth/twitter/access_token', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             oauth_token: oauthToken,
+        //             oauth_verifier: oauthVerifier
+        //         })
+        //     });
+        //     const data = await response.json();
+        //     alert(JSON.stringify(data));
+        //     return data.authToken; // Assuming the JWT is in the `token` field
+        // };
 
-        // Define the function to authenticate with Web3Auth
-        const authenticateWithWeb3Auth = async (jwt) => {
-            const chainConfig = {
-                chainNamespace: window.CHAIN_NAMESPACES.EIP155,
-                chainId: "0x1",
-                displayName: "Ethereum Mainnet",
-                rpcTarget: "https://rpc.ankr.com/eth",
-                blockExplorerUrl: "https://etherscan.io",
-                ticker: "ETH",
-                tickerName: "Ethereum",
-                logo: "https://web3auth.io/images/web3authlog.png",
-            };
+        // // Define the function to authenticate with Web3Auth
+        // const authenticateWithWeb3Auth = async (jwt) => {
+        //     const chainConfig = {
+        //         chainNamespace: window.CHAIN_NAMESPACES.EIP155,
+        //         chainId: "0x1",
+        //         displayName: "Ethereum Mainnet",
+        //         rpcTarget: "https://rpc.ankr.com/eth",
+        //         blockExplorerUrl: "https://etherscan.io",
+        //         ticker: "ETH",
+        //         tickerName: "Ethereum",
+        //         logo: "https://web3auth.io/images/web3authlog.png",
+        //     };
 
-            const privateKeyProvider = new window.EthereumPrivateKeyProvider({
-                config: { chainConfig },
-            });
-            var clientId = "BCD3bVaYA3ZHu3F0bEs6eEyk3OzC1zZvTwkFkFQsiicid-7H4bxyQgBlC9IxCipUYlEbQ1P6ZqBzuDBAMx7svIA";
+        //     const privateKeyProvider = new window.EthereumPrivateKeyProvider({
+        //         config: { chainConfig },
+        //     });
+        //     var clientId = "BCD3bVaYA3ZHu3F0bEs6eEyk3OzC1zZvTwkFkFQsiicid-7H4bxyQgBlC9IxCipUYlEbQ1P6ZqBzuDBAMx7svIA";
 
-            const web3AuthOptions = {
-                clientId,
-                web3AuthNetwork: window.WEB3AUTH_NETWORK.SAPPHIRE_TESTNET,
-                privateKeyProvider,
-            };
+        //     const web3AuthOptions = {
+        //         clientId,
+        //         web3AuthNetwork: window.WEB3AUTH_NETWORK.SAPPHIRE_TESTNET,
+        //         privateKeyProvider,
+        //     };
 
-            const web3auth = new window.Web3AuthNoModal(web3AuthOptions);
+        //     const web3auth = new window.Web3AuthNoModal(web3AuthOptions);
 
-            const openloginAdapter = new window.OpenloginAdapter({
-                adapterSettings: {
-                    clientId: clientId, // Replace with your Web3Auth client ID
-                    network: "sapphire_devnet", // Ensure this matches your network
-                    uxMode: "redirect",
-                    loginConfig: {
-                        jwt: {
-                            name: "Twitter Login", // Display name
-                            verifier: "rddtor-verifier",
-                            verifierSubIdentifier: "xano-twitter-rddtor-verifier",
-                            typeOfLogin: "jwt",
-                            clientId: clientId,
-                        },
-                    },
-                },
-            });
+        //     const openloginAdapter = new window.OpenloginAdapter({
+        //         adapterSettings: {
+        //             clientId: clientId, // Replace with your Web3Auth client ID
+        //             network: "sapphire_devnet", // Ensure this matches your network
+        //             uxMode: "redirect",
+        //             loginConfig: {
+        //                 jwt: {
+        //                     name: "Twitter Login", // Display name
+        //                     verifier: "rddtor-verifier",
+        //                     verifierSubIdentifier: "xano-twitter-rddtor-verifier",
+        //                     typeOfLogin: "jwt",
+        //                     clientId: clientId,
+        //                 },
+        //             },
+        //         },
+        //     });
 
-            web3auth.configureAdapter(openloginAdapter);
-            await web3auth.initModal();
+        //     web3auth.configureAdapter(openloginAdapter);
+        //     await web3auth.initModal();
 
             
 
-            try {
-                await web3auth.logout();
-                console.log('Successfully logged out');
-            } catch (error) {
-                console.error('Logout failed:', error);
-            }
+        //     try {
+        //         await web3auth.logout();
+        //         console.log('Successfully logged out');
+        //     } catch (error) {
+        //         console.error('Logout failed:', error);
+        //     }
 
-            await web3auth.connectTo("openlogin", {
-                loginProvider: "jwt",
-                extraLoginOptions: {
-                    id_token: jwt,
-                    verifierIdField: "sub",
-                    domain: "https://your-domain.com", // Your domain if required
-                },
-            });
+        //     await web3auth.connectTo("openlogin", {
+        //         loginProvider: "jwt",
+        //         extraLoginOptions: {
+        //             id_token: jwt,
+        //             verifierIdField: "sub",
+        //             domain: "https://your-domain.com", // Your domain if required
+        //         },
+        //     });
 
-            return web3auth;
-        };
+        //     return web3auth;
+        // };
 
-        // Define the function to send the Web3Auth token to Xano
-        const sendWeb3AuthTokenToXano = async (web3auth) => {
-            const authenticationResult = await web3auth.authenticateUser();
+        // // Define the function to send the Web3Auth token to Xano
+        // const sendWeb3AuthTokenToXano = async (web3auth) => {
+        //     const authenticationResult = await web3auth.authenticateUser();
             
-            prompt("sdasd", authenticationResult.idToken);
-            const web3authToken = authenticationResult.idToken; // Replace with the correct way to get the token from provider
-            const response = await fetch('https://xsrr-l2ye-dpbj.f2.xano.io/api:NUVFj-l-:Web3Auth/oauth/web3auth/authenticate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    token: web3authToken
-                })
-            });
-            const data = await response.json();
-            return data;
-        };
+        //     prompt("sdasd", authenticationResult.idToken);
+        //     const web3authToken = authenticationResult.idToken; // Replace with the correct way to get the token from provider
+        //     const response = await fetch('https://xsrr-l2ye-dpbj.f2.xano.io/api:NUVFj-l-:Web3Auth/oauth/web3auth/authenticate', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify({
+        //             token: web3authToken
+        //         })
+        //     });
+        //     const data = await response.json();
+        //     return data;
+        // };
 
-        // Main async function to handle the login process
-        const handleLogin = async (oauthToken, oauthVerifier) => {
-            try {
-                const jwt = await fetchJWTFromXano(oauthToken, oauthVerifier);
-                const web3auth = await authenticateWithWeb3Auth(jwt);
-                const result = await sendWeb3AuthTokenToXano(web3auth);
-                console.log("Login successful:", result);
-            } catch (error) {
-                console.error("Login failed:", error);
-            }
-        };
-        // Execute the login process
+        // // Main async function to handle the login process
+        // const handleLogin = async (oauthToken, oauthVerifier) => {
+        //     try {
+        //         const jwt = await fetchJWTFromXano(oauthToken, oauthVerifier);
+        //         const web3auth = await authenticateWithWeb3Auth(jwt);
+        //         const result = await sendWeb3AuthTokenToXano(web3auth);
+        //         console.log("Login successful:", result);
+        //     } catch (error) {
+        //         console.error("Login failed:", error);
+        //     }
+        // };
+        // // Execute the login process
         
 
-        // Perform actions if both oauth_token and oauth_verifier are set
-        if (oauthToken && oauthVerifier) {
-            console.log("OAuth Token:", oauthToken);
-            console.log("OAuth Verifier:", oauthVerifier);
-            // Your code to handle the OAuth token and verifier here
-            handleLogin(oauthToken, oauthVerifier);
-        } else {
-            console.log("OAuth Token or Verifier not set.");
-        }
+        // // Perform actions if both oauth_token and oauth_verifier are set
+        // if (oauthToken && oauthVerifier) {
+        //     console.log("OAuth Token:", oauthToken);
+        //     console.log("OAuth Verifier:", oauthVerifier);
+        //     // Your code to handle the OAuth token and verifier here
+        //     handleLogin(oauthToken, oauthVerifier);
+        // } else {
+        //     console.log("OAuth Token or Verifier not set.");
+        // }
 
         const type = computed(() => {
             if (Object.keys(props.wwElementState.props).includes('type')) {
