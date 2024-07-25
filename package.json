@@ -21,7 +21,7 @@
     "dependencies": {
         "@web3auth/base": "^8.8.0",
         "@web3auth/ethereum-provider": "^8.10.2",
-        "@web3auth/modal": "^8.10.2",
+        "@web3auth/no-modal": "^8.10.2",
         "@web3auth/openlogin-adapter": "^8.8.0"
     }
 }
